@@ -1,0 +1,35 @@
+{{ $root := . }}{{- range $set := .Values.worker.sets }}
+---
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineDeployment
+metadata:
+  name: {{ include "kamaji-cluster.clusterName" $root }}-{{ .name }}
+  namespace: {{ $root.Release.Namespace }}
+  labels:
+    cluster: {{ include "kamaji-cluster.clusterName" $root }}
+    nodepool: {{ include "kamaji-cluster.clusterName" $root }}-{{ .name }}
+    {{- include "kamaji-cluster.labels" $root | nindent 4 }}
+spec:
+  clusterName: {{ include "kamaji-cluster.clusterName" $root }}
+  replicas: {{ .replicas }}
+  selector:
+    matchLabels: null
+  template:
+    metadata:
+      labels:
+        cluster: {{ include "kamaji-cluster.clusterName" $root }}
+        nodepool: {{ include "kamaji-cluster.clusterName" $root }}-{{ .name }}
+    spec:
+      bootstrap:
+        configRef:
+          apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
+          kind: KubeadmConfigTemplate
+          name: {{ include "kamaji-cluster.clusterName" $root }}-worker
+      clusterName: {{ include "kamaji-cluster.clusterName" $root }}
+      failureDomain: {{ .domain }}
+      infrastructureRef:
+        apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+        kind: HCloudMachineTemplate
+        name: {{ include "kamaji-cluster.clusterName" $root }}-worker
+      version: {{ $root.Values.cluster.version | default (printf "v%s" $root.Chart.AppVersion) }}
+{{- end }}

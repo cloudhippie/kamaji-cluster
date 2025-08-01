@@ -1,0 +1,25 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: MachineHealthCheck
+metadata:
+  name: {{ include "kamaji-cluster.clusterName" . }}-worker-unhealthy-5m
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "kamaji-cluster.labels" . | nindent 4 }}
+spec:
+  clusterName: {{ include "kamaji-cluster.clusterName" . }}
+  maxUnhealthy: 100%
+  nodeStartupTimeout: 10m
+  remediationTemplate:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+    kind: HCloudRemediationTemplate
+    name: worker-remediation-request
+  selector:
+    matchLabels:
+      cluster: {{ include "kamaji-cluster.clusterName" . }}
+  unhealthyConditions:
+    - status: Unknown
+      timeout: 180s
+      type: Ready
+    - status: "False"
+      timeout: 180s
+      type: Ready

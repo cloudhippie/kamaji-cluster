@@ -1,0 +1,57 @@
+---
+apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
+kind: KamajiControlPlane
+metadata:
+  name: dummy-control-plane
+  namespace: cluster-dummy
+spec:
+  addons:
+    coreDNS:
+      dnsServiceIPs:
+        - 10.96.0.10
+    konnectivity: {}
+    kubeProxy: {}
+  apiServer:
+    extraArgs:
+      - --oidc-client-id=kubernetes
+      - --oidc-username-claim=preferred_username
+      - '--oidc-username-prefix=oidc:'
+      - --oidc-groups-claim=groups
+      - '--oidc-groups-prefix=oidc:'
+  controllerManager:
+    extraArgs:
+      - --cloud-provider=external
+  dataStoreName: default
+  deployment:
+    affinity:
+      podAntiAffinity:
+        preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: kamaji.clastix.io/name
+                    operator: In
+                    values:
+                      - dummy
+              topologyKey: kubernetes.io/hostname
+            weight: 100
+  kubelet:
+    cgroupfs: systemd
+    preferredAddressTypes:
+      - ExternalIP
+      - InternalIP
+      - Hostname
+  network:
+    certSANs: []
+    serviceAnnotations:
+      external-dns.alpha.kubernetes.io/ttl: "1"
+      load-balancer.hetzner.cloud/disable-private-ingress: "true"
+      load-balancer.hetzner.cloud/network-zone: eu-central
+      load-balancer.hetzner.cloud/type: lb11
+      load-balancer.hetzner.cloud/use-private-ip: "true"
+    serviceType: LoadBalancer
+  replicas: 3
+  scheduler: {}
+  version: v1.33.2
+
+...

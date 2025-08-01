@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -eo pipefail
+
+export WORKING_DIR="generated"
+
+export SSH_KEY_NAME="terraform"
+export HCLOUD_REGION="fsn1"
+export HCLOUD_CONTROL_PLANE_MACHINE_TYPE="${HCLOUD_CONTROL_PLANE_MACHINE_TYPE:-cx22}"
+export HCLOUD_WORKER_MACHINE_TYPE="${HCLOUD_WORKER_MACHINE_TYPE:-cx22}"
+
+rm -rf ${WORKING_DIR}/
+mkdir -p ${WORKING_DIR}/
+
+clusterctl generate cluster dummy \
+    --from https://github.com/cloudhippie/clusterapi-kamaji/releases/download/v1.0.0/template.yaml \
+    --target-namespace cluster-dummy \
+    --kubernetes-version v1.33.2 \
+    --control-plane-machine-count=3 \
+    --worker-machine-count=1 \
+    >| ${WORKING_DIR}/dummy.yaml
+
+kubectl slice -f ${WORKING_DIR}/dummy.yaml -o ${WORKING_DIR}/
+rm -f ${WORKING_DIR}/dummy.yaml
+
+mv ${WORKING_DIR}/cluster-dummy.yaml ${WORKING_DIR}/cluster.yaml
+mv ${WORKING_DIR}/clusterresourceset-cluster-dummy-oidc.yaml ${WORKING_DIR}/clusterresourceset-oidc.yaml
+mv ${WORKING_DIR}/configmap-cluster-dummy-oidc.yaml ${WORKING_DIR}/configmap-oidc.yaml
+mv ${WORKING_DIR}/hcloudmachinetemplate-dummy-worker.yaml ${WORKING_DIR}/hcloudmachinetemplate-worker.yaml
+mv ${WORKING_DIR}/hetznercluster-dummy.yaml ${WORKING_DIR}/hetznercluster.yaml
+mv ${WORKING_DIR}/kamajicontrolplane-dummy-control-plane.yaml ${WORKING_DIR}/kamajicontrolplane-control-plane.yaml
+mv ${WORKING_DIR}/kubeadmconfigtemplate-dummy-worker.yaml ${WORKING_DIR}/kubeadmconfigtemplate-worker.yaml
+mv ${WORKING_DIR}/machinedeployment-dummy-fsn1.yaml ${WORKING_DIR}/machinedeployment.yaml
+mv ${WORKING_DIR}/machinehealthcheck-dummy-worker-unhealthy-5m.yaml ${WORKING_DIR}/machinehealthcheck-worker-unhealthy-5m.yaml
+
+rm -f ${WORKING_DIR}/machinedeployment-dummy-hel1.yaml ${WORKING_DIR}/machinedeployment-dummy-nbg1.yaml
+
+for FILE in ${WORKING_DIR}/*.yaml; do
+    yamlfmt "${FILE}"
+
+    sed -i '1i ---' "${FILE}"
+    echo >> "${FILE}"
+    echo "..." >> "${FILE}"
+done

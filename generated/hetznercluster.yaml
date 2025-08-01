@@ -1,0 +1,32 @@
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
+kind: HetznerCluster
+metadata:
+  annotations:
+    capi.syself.com/allow-empty-control-plane-address: "true"
+  name: dummy
+  namespace: cluster-dummy
+spec:
+  controlPlaneLoadBalancer:
+    enabled: false
+  controlPlaneRegions:
+    - fsn1
+    - nbg1
+    - hel1
+  hcloudNetwork:
+    enabled: true
+  hcloudPlacementGroups:
+    - name: worker
+      type: spread
+  hetznerSecretRef:
+    key:
+      hcloudToken: hcloud
+      hetznerRobotPassword: robot-password
+      hetznerRobotUser: robot-user
+    name: hetzner
+  skipCreatingHetznerSecretInWorkloadCluster: true
+  sshKeys:
+    hcloud:
+      - name: terraform
+
+...

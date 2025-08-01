@@ -1,0 +1,17 @@
+---
+apiVersion: v2
+name: kamaji-cluster
+type: application
+version: 1.0.0
+appVersion: 1.33.2
+description: Kubernetes cluster for Kamaji
+home: https://github.com/cloudhippie/kamaji-cluster
+keywords: []
+maintainers:
+  - email: thomas@cloudhippie.de
+    name: tboerger
+    url: https://github.com/tboerger
+sources:
+  - https://github.com/cloudhippie/kamaji-cluster
+
+...
