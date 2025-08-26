@@ -4,7 +4,7 @@ name: kamaji-cluster
 type: application
 version: 1.0.0
 appVersion: 1.33.2
-description: Kubernetes cluster for Kamaji
+description: Kubernetes cluster with Kamaji
 home: https://github.com/cloudhippie/kamaji-cluster
 keywords: []
 maintainers:
@@ -13,5 +13,25 @@ maintainers:
     url: https://github.com/tboerger
 sources:
   - https://github.com/cloudhippie/kamaji-cluster
+dependencies:
+  - name: prom-crds-proxy
+    repository: oci://ghcr.io/cloudhippie/charts
+    version: 1.0.0
+  - condition: hloud.enabled && hcloud.ccm.enabled
+    name: hcloud-ccm-mgmt
+    repository: oci://ghcr.io/cloudhippie/charts
+    version: 1.0.2
+  - condition: hloud.enabled && hcloud.csi.enabled
+    name: hcloud-csi-mgmt
+    repository: oci://ghcr.io/cloudhippie/charts
+    version: 1.0.2
+  - condition: hloud.enabled && hcloud.csi.enabled
+    name: hcloud-csi-proxy
+    repository: oci://ghcr.io/cloudhippie/charts
+    version: 1.0.2
+  - condition: cluster.cni == 'calico'
+    name: calico-cni-proxy
+    repository: oci://ghcr.io/cloudhippie/charts
+    version: 1.0.0
 
 ...

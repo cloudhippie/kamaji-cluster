@@ -1,3 +1,4 @@
+{{- if .Values.hcloud.enabled }}
 apiVersion: infrastructure.cluster.x-k8s.io/v1beta1
 kind: HetznerCluster
 metadata:
@@ -8,6 +9,7 @@ metadata:
   annotations:
     capi.syself.com/allow-empty-control-plane-address: "true"
 spec:
+  skipCreatingHetznerSecretInWorkloadCluster: true
   controlPlaneLoadBalancer:
     enabled: false
   controlPlaneRegions:
@@ -25,9 +27,9 @@ spec:
       hcloudToken: hcloud
       hetznerRobotPassword: robot-password
       hetznerRobotUser: robot-user
-  skipCreatingHetznerSecretInWorkloadCluster: true
   sshKeys:
     hcloud:
       {{- range .Values.hcloud.sshKeys }}
       - name: {{ . }}
       {{- end }}
+{{- end }}

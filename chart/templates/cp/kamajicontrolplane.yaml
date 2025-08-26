@@ -51,16 +51,16 @@ spec:
     certSANs:
       {{- toYaml .Values.cluster.sans | nindent 6 }}
     {{- end }}
-    {{- if .Values.hcloud.loadBalancer.enabled }}
-    serviceType: LoadBalancer
+    serviceType: {{ .Values.kamaji.serviceType }}
+    {{- if eq .Values.kamaji.service "LoadBalancer" }}
     serviceAnnotations:
       external-dns.alpha.kubernetes.io/ttl: "1"
       {{- if .Values.cluster.endpoint }}
       external-dns.alpha.kubernetes.io/hostname: "{{ .Values.cluster.endpoint }}"
       {{- end }}
       load-balancer.hetzner.cloud/disable-private-ingress: "true"
-      load-balancer.hetzner.cloud/network-zone: "{{ .Values.hcloud.loadBalancer.zone }}"
-      load-balancer.hetzner.cloud/type: "{{ .Values.hcloud.loadBalancer.type }}"
+      load-balancer.hetzner.cloud/network-zone: "{{ .Values.kamaji.loadBalancer.zone }}"
+      load-balancer.hetzner.cloud/type: "{{ .Values.kamaji.loadBalancer.type }}"
       load-balancer.hetzner.cloud/use-private-ip: "true"
       {{- if .Values.cluster.endpoint }}
       load-balancer.hetzner.cloud/ipv4-rdns: "{{ .Values.cluster.endpoint }}"

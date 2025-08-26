@@ -18,12 +18,11 @@ cluster:
   # -- Name of the used cni provider
   cni: calico
 
+  # -- List of cert SANs applied to API server
+  sans: []
+
   # -- (string) Address or domain for cluster endpoint
   endpoint: ~
-
-  # -- IPs for the cluster DNS service
-  dns:
-    - 10.96.0.10
 
   # -- List of pod cidrs for the cluster
   podCidrs:
@@ -33,27 +32,40 @@ cluster:
   serviceCidrs:
     - 10.96.0.0/12
 
-  # -- List of cert SANs applied to API server
-  sans: []
+  # -- IPs for the cluster DNS service
+  dns:
+    - 10.96.0.10
 
-hcloud:
+kamaji:
+  # -- Service type for Kamaji cluster
+  serviceType: LoadBalancer
+
   loadBalancer:
-    # -- Enable load balancer for Kamaji cluster
-    enabled: true
-
     # -- Type of the load balancer
     type: lb11
 
     # -- Network zone for load balancer
     zone: eu-central
 
-  # -- Network configuration for Hetzner cluster
-  network:
+hcloud:
+  # -- Enable the Hetzner infrastructure provider
+  enabled: true
+
+  ccm:
+    # -- Enable Hetzner Cloud CCM sub-chart
+    enabled: true
+
+  csi:
+    # -- Enable Hetzner Cloud CSI sub-chart
     enabled: true
 
   # -- List of integrated SSH keys
   sshKeys:
     - terraform
+
+  # -- Network configuration for Hetzner cluster
+  network:
+    enabled: true
 
 cp:
   # -- Number of replicas for control plane
@@ -90,5 +102,34 @@ oidc:
 
   # -- Override group name for cluster-admin mapping
   adminGroup: ~
+
+# -- Values for prom-crds-proxy dependency
+prom-crds-proxy:
+  fullnameOverride: prom-crds
+
+# -- Values for hcloud-ccm-mgmt dependency
+hcloud-ccm-mgmt:
+  fullnameOverride: hcloud-ccm
+  config:
+    kubeconfig: ~
+    network: ~
+
+# -- Values for hcloud-csi-mgmt dependency
+hcloud-csi-mgmt:
+  fullnameOverride: hcloud-csi
+  config:
+    kubeconfig: ~
+
+# -- Values for hcloud-csi-proxy dependency
+hcloud-csi-proxy:
+  fullnameOverride: hcloud-csi
+  target:
+    release: hcloud-csi
+    namespace: kube-system
+    kamajiCluster: true
+
+# -- Values for calico-cniproxy dependency
+calico-cni-proxy:
+  fullnameOverride: calico-cni
 
 ...
