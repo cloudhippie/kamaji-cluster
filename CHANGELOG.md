@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/cloudhippie/kamaji-cluster/compare/v1.1.0...v1.1.1) (2025-08-31)
+
+
+### Bugfixes
+
+* upgrade hcloud-ccm-mgmt to 1.1.0 ([6a834ff](https://github.com/cloudhippie/kamaji-cluster/commit/6a834ff4d3c329f109d7cf5a3cb10cfdcbb0eb5c))
+
 ## [1.1.0](https://github.com/cloudhippie/kamaji-cluster/compare/v1.0.0...v1.1.0) (2025-08-26)
 
 
