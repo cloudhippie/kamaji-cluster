@@ -46,7 +46,7 @@ helm install kamaji-cluster oci://ghcr.io/cloudhippie/kamaji-cluster
 | cluster.runc | string | `"1.2.5"` | Version of runc installed |
 | cluster.sans | list | `[]` | List of cert SANs applied to API server |
 | cluster.serviceCidrs | list | `["10.96.0.0/12"]` | List of service cidrs for the cluster |
-| cluster.version | string | `nil` | Version of the Kubernetes components |
+| cluster.version | string | `"v1.33.2"` | Version of the Kubernetes components |
 | cp.replicas | int | `3` | Number of replicas for control plane |
 | hcloud-ccm-mgmt | object | `{"config":{"kubeconfig":null,"network":null},"fullnameOverride":"hcloud-ccm"}` | Values for hcloud-ccm-mgmt dependency |
 | hcloud-csi-mgmt | object | `{"config":{"kubeconfig":null},"fullnameOverride":"hcloud-csi"}` | Values for hcloud-csi-mgmt dependency |
