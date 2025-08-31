@@ -27,7 +27,7 @@ helm install kamaji-cluster oci://ghcr.io/cloudhippie/kamaji-cluster
 | Repository | Name | Version |
 |------------|------|---------|
 | oci://ghcr.io/cloudhippie/charts | calico-cni-proxy | 1.0.0 |
-| oci://ghcr.io/cloudhippie/charts | hcloud-ccm-mgmt | 1.0.2 |
+| oci://ghcr.io/cloudhippie/charts | hcloud-ccm-mgmt | 1.1.0 |
 | oci://ghcr.io/cloudhippie/charts | hcloud-csi-mgmt | 1.0.2 |
 | oci://ghcr.io/cloudhippie/charts | hcloud-csi-proxy | 1.0.2 |
 | oci://ghcr.io/cloudhippie/charts | prom-crds-proxy | 1.0.0 |
