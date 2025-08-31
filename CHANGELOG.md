@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/cloudhippie/kamaji-cluster/compare/v1.1.1...v1.1.2) (2025-08-31)
+
+
+### Bugfixes
+
+* properly define kubernetes version via values ([422c216](https://github.com/cloudhippie/kamaji-cluster/commit/422c216e6230e06e782fccf7bacdc0d7df1d666f))
+
 ## [1.1.1](https://github.com/cloudhippie/kamaji-cluster/compare/v1.1.0...v1.1.1) (2025-08-31)
 
 
