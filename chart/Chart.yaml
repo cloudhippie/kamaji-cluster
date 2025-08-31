@@ -20,7 +20,7 @@ dependencies:
   - condition: hloud.enabled && hcloud.ccm.enabled
     name: hcloud-ccm-mgmt
     repository: oci://ghcr.io/cloudhippie/charts
-    version: 1.0.2
+    version: 1.1.0
   - condition: hloud.enabled && hcloud.csi.enabled
     name: hcloud-csi-mgmt
     repository: oci://ghcr.io/cloudhippie/charts

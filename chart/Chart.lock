@@ -4,7 +4,7 @@ dependencies:
   version: 1.0.0
 - name: hcloud-ccm-mgmt
   repository: oci://ghcr.io/cloudhippie/charts
-  version: 1.0.2
+  version: 1.1.0
 - name: hcloud-csi-mgmt
   repository: oci://ghcr.io/cloudhippie/charts
   version: 1.0.2
@@ -14,5 +14,5 @@ dependencies:
 - name: calico-cni-proxy
   repository: oci://ghcr.io/cloudhippie/charts
   version: 1.0.0
-digest: sha256:c3bb7bcece2ecc14eaa194a138849fae9e73e82c5e4b732d1d06fe5a5eb5168c
-generated: "2025-08-26T16:12:46.585235+02:00"
+digest: sha256:9a9c198b30d582d6af814bf463952945f3878ffc88ca75cc49387248e315fc45
+generated: "2025-08-31T22:54:50.800782+02:00"
